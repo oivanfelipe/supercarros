@@ -1,0 +1,1454 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Playbook SDR/BDR — SuperCarros Corporate</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --red: #CC0000;
+    --red-dark: #a00000;
+    --red-light: #fff0f0;
+    --black: #111111;
+    --dark: #1a1a1a;
+    --gray: #555555;
+    --mid: #888888;
+    --light: #f5f5f5;
+    --border: #e0e0e0;
+    --white: #ffffff;
+    --blue-info: #e8f0fe;
+    --blue-accent: #1a56bb;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #f0f0f0;
+    color: var(--dark);
+    line-height: 1.6;
+    font-size: 14px;
+  }
+
+  /* ─── COVER ─── */
+  .cover {
+    background: var(--black);
+    color: var(--white);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 80px 10%;
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--red) 0%, #880000 100%);
+    clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);
+  }
+  .cover-badge {
+    background: var(--red);
+    color: var(--white);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 2px;
+    margin-bottom: 32px;
+    position: relative;
+    z-index: 1;
+  }
+  .cover h1 {
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 900;
+    line-height: 1.05;
+    position: relative;
+    z-index: 1;
+    max-width: 580px;
+  }
+  .cover h1 span { color: var(--red); }
+  .cover-sub {
+    font-size: 18px;
+    color: #aaa;
+    margin-top: 16px;
+    font-weight: 300;
+    position: relative;
+    z-index: 1;
+  }
+  .cover-meta {
+    display: flex;
+    gap: 40px;
+    margin-top: 60px;
+    position: relative;
+    z-index: 1;
+  }
+  .cover-meta-item { }
+  .cover-meta-item .label {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--mid);
+    font-weight: 600;
+  }
+  .cover-meta-item .value {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--white);
+    margin-top: 4px;
+  }
+  .cover-v4 {
+    position: absolute;
+    bottom: 40px;
+    left: 10%;
+    font-size: 12px;
+    color: #555;
+    letter-spacing: 1px;
+    z-index: 1;
+  }
+  .cover-v4 span { color: var(--red); font-weight: 700; }
+
+  /* ─── LAYOUT ─── */
+  .page { max-width: 960px; margin: 0 auto; padding: 40px 20px; }
+
+  /* ─── SECTION HEADER ─── */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 60px 0 24px;
+    padding-bottom: 16px;
+    border-bottom: 3px solid var(--red);
+  }
+  .section-num {
+    background: var(--red);
+    color: var(--white);
+    font-weight: 900;
+    font-size: 13px;
+    width: 36px;
+    height: 36px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .section-header h2 {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--black);
+    letter-spacing: -0.5px;
+  }
+
+  /* ─── SUBSECTION ─── */
+  h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--black);
+    margin: 28px 0 12px;
+    padding-left: 12px;
+    border-left: 4px solid var(--red);
+  }
+
+  p { color: var(--gray); margin-bottom: 12px; line-height: 1.7; }
+
+  /* ─── INFO GRID ─── */
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin: 20px 0;
+  }
+  .info-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--red);
+    padding: 14px 16px;
+    border-radius: 4px;
+  }
+  .info-card .ic-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 4px;
+  }
+  .info-card .ic-value { font-size: 13px; font-weight: 500; color: var(--dark); }
+
+  /* ─── ALERT / INFO BOXES ─── */
+  .alert {
+    background: #fff5f5;
+    border-left: 5px solid var(--red);
+    border-radius: 0 6px 6px 0;
+    padding: 14px 18px;
+    margin: 16px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .alert-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .alert p { margin: 0; color: var(--dark); font-size: 13px; line-height: 1.6; }
+  .alert strong { color: var(--red); }
+
+  .info-box {
+    background: var(--blue-info);
+    border-left: 5px solid var(--blue-accent);
+    border-radius: 0 6px 6px 0;
+    padding: 14px 18px;
+    margin: 16px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .info-box p { margin: 0; color: var(--dark); font-size: 13px; }
+  .info-box strong { color: var(--blue-accent); }
+
+  /* ─── QUOTE ─── */
+  .quote {
+    background: var(--light);
+    border-left: 5px solid var(--red);
+    padding: 16px 20px;
+    margin: 16px 0;
+    border-radius: 0 6px 6px 0;
+    font-style: italic;
+    color: var(--gray);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  /* ─── TABLE ─── */
+  .table-wrap { overflow-x: auto; margin: 20px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead tr { background: var(--black); }
+  thead th {
+    color: var(--white);
+    padding: 12px 14px;
+    text-align: left;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+  }
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:nth-child(even) { background: var(--light); }
+  tbody td { padding: 11px 14px; color: var(--dark); vertical-align: top; }
+  tbody td strong { color: var(--black); }
+  .td-highlight { background: #fff0f0 !important; color: var(--red); font-weight: 700; }
+
+  /* ─── PRICING TABLE ─── */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .price-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .price-card.featured {
+    border: 2px solid var(--red);
+    transform: scale(1.02);
+  }
+  .price-card-header {
+    background: var(--light);
+    padding: 20px;
+    text-align: center;
+  }
+  .price-card.featured .price-card-header { background: var(--red); }
+  .price-card-name {
+    font-weight: 800;
+    font-size: 15px;
+    color: var(--black);
+  }
+  .price-card.featured .price-card-name { color: var(--white); }
+  .price-card-value {
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--red);
+    margin-top: 8px;
+  }
+  .price-card.featured .price-card-value { color: var(--white); }
+  .price-card-sub { font-size: 11px; color: var(--mid); margin-top: 4px; }
+  .price-card.featured .price-card-sub { color: rgba(255,255,255,0.7); }
+  .price-card-body { padding: 20px; }
+  .price-feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    color: var(--gray);
+  }
+  .price-feature::before { content: '→'; color: var(--red); font-weight: 700; flex-shrink: 0; }
+
+  /* ─── ICP CARDS ─── */
+  .icp-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin: 20px 0;
+    overflow: hidden;
+  }
+  .icp-header {
+    background: var(--black);
+    color: var(--white);
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .icp-header-left { }
+  .icp-num {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--red);
+  }
+  .icp-title {
+    font-size: 20px;
+    font-weight: 800;
+    margin-top: 4px;
+  }
+  .icp-focus {
+    background: var(--red);
+    color: var(--white);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 5px 14px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .icp-body { padding: 24px; }
+  .icp-hook {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--red);
+    font-style: italic;
+    margin-bottom: 16px;
+  }
+  .icp-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .icp-col-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 10px;
+  }
+  .icp-list { list-style: none; }
+  .icp-list li {
+    padding: 5px 0;
+    font-size: 13px;
+    color: var(--gray);
+    padding-left: 16px;
+    position: relative;
+  }
+  .icp-list li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--red);
+    font-weight: 700;
+  }
+  .icp-companies {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .icp-companies-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--mid);
+    white-space: nowrap;
+  }
+  .company-tag {
+    background: var(--light);
+    border: 1px solid var(--border);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--dark);
+  }
+
+  /* ─── PROCESS FLOW ─── */
+  .flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 20px 0;
+    position: relative;
+  }
+  .flow-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px 0;
+    position: relative;
+  }
+  .flow-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 19px;
+    top: 50px;
+    width: 2px;
+    height: calc(100% - 30px);
+    background: var(--border);
+  }
+  .flow-num {
+    width: 40px;
+    height: 40px;
+    background: var(--red);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 16px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+  .flow-content { flex: 1; }
+  .flow-title { font-size: 15px; font-weight: 700; color: var(--black); margin-bottom: 4px; }
+  .flow-desc { font-size: 13px; color: var(--gray); margin: 0; }
+  .flow-tag {
+    display: inline-block;
+    background: var(--red);
+    color: var(--white);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+
+  /* ─── SCRIPT BLOCK ─── */
+  .script-block {
+    background: var(--light);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 16px 0;
+    font-size: 14px;
+    color: var(--dark);
+    line-height: 1.8;
+    font-style: italic;
+    position: relative;
+  }
+  .script-block::before {
+    content: '"';
+    position: absolute;
+    top: 8px;
+    left: 16px;
+    font-size: 60px;
+    color: var(--red);
+    opacity: 0.15;
+    font-style: normal;
+    line-height: 1;
+    font-weight: 900;
+  }
+
+  /* ─── BULLETS ─── */
+  ul.bullets { list-style: none; padding: 0; margin: 12px 0; }
+  ul.bullets li {
+    padding: 6px 0 6px 22px;
+    position: relative;
+    font-size: 14px;
+    color: var(--gray);
+    border-bottom: 1px solid var(--border);
+  }
+  ul.bullets li:last-child { border-bottom: none; }
+  ul.bullets li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--red);
+    font-weight: 700;
+  }
+
+  /* ─── GOLDEN RULES ─── */
+  .rules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .rule-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    border-top: 4px solid var(--red);
+  }
+  .rule-num {
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--red);
+    opacity: 0.2;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .rule-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--black);
+    margin-bottom: 6px;
+  }
+  .rule-desc { font-size: 13px; color: var(--gray); margin: 0; }
+
+  /* ─── SCHEDULE TABLE ─── */
+  .schedule-row-highlight td { background: #fff0f0 !important; }
+  .schedule-time { font-weight: 700; color: var(--red); white-space: nowrap; }
+
+  /* ─── CONTACTS ─── */
+  .contacts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .contact-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .contact-avatar {
+    width: 44px;
+    height: 44px;
+    background: var(--red);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .contact-info {}
+  .contact-name { font-weight: 700; font-size: 15px; color: var(--black); }
+  .contact-role { font-size: 11px; color: var(--mid); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
+  .contact-detail { font-size: 12px; color: var(--gray); line-height: 1.8; }
+
+  /* ─── REPORT TABLE ─── */
+  .report-field {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    padding: 12px 0;
+    gap: 16px;
+  }
+  .report-field:last-child { border-bottom: none; }
+  .rf-label {
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--black);
+    min-width: 200px;
+    flex-shrink: 0;
+  }
+  .rf-value { font-size: 13px; color: var(--gray); }
+
+  /* ─── FOOTER ─── */
+  .footer {
+    background: var(--black);
+    color: var(--white);
+    padding: 40px 10%;
+    margin-top: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .footer-left {}
+  .footer-brand { font-size: 18px; font-weight: 800; }
+  .footer-brand span { color: var(--red); }
+  .footer-tagline { font-size: 12px; color: #666; margin-top: 4px; }
+  .footer-right { font-size: 12px; color: #555; text-align: right; }
+
+  /* ─── DIVIDER ─── */
+  .divider { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+
+  /* ─── STATS ROW ─── */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .stat-box {
+    background: var(--red);
+    color: var(--white);
+    border-radius: 8px;
+    padding: 24px;
+    text-align: center;
+  }
+  .stat-number { font-size: 40px; font-weight: 900; line-height: 1; }
+  .stat-label { font-size: 12px; margin-top: 6px; opacity: 0.85; }
+
+  @media (max-width: 640px) {
+    .icp-cols { grid-template-columns: 1fr; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .stats-row { grid-template-columns: 1fr; }
+    .price-card.featured { transform: none; }
+    .cover { padding: 60px 6%; }
+    .cover::before { display: none; }
+  }
+  @media print {
+    body { background: white; }
+    .cover { page-break-after: always; min-height: auto; padding: 60px; }
+    .section-header { page-break-inside: avoid; }
+    .icp-card, .rule-card, .price-card { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- CAPA -->
+<div class="cover">
+  <div class="cover-badge">Confidencial · Uso Interno V4 + SuperCarros</div>
+  <h1>Playbook<br><span>SDR/BDR</span><br>SuperCarros Corporate</h1>
+  <div class="cover-sub">Guia completo de prospecção B2B — Julho 2026</div>
+  <div class="cover-meta">
+    <div class="cover-meta-item">
+      <div class="label">Empresa</div>
+      <div class="value">SuperCarros Corporate</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="label">CEO</div>
+      <div class="value">André Goettert</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="label">Agência</div>
+      <div class="value">V4 Company — Carvalho & Co</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="label">Versão</div>
+      <div class="value">2.0 · Jul 2026</div>
+    </div>
+  </div>
+  <div class="cover-v4">Produzido por <span>V4 Company</span> · ivan.felipe@v4company.com</div>
+</div>
+
+<!-- CONTEÚDO PRINCIPAL -->
+<div class="page">
+
+  <!-- 1. A EMPRESA -->
+  <div class="section-header">
+    <div class="section-num">1</div>
+    <h2>A Empresa</h2>
+  </div>
+  <p>A SuperCarros é pioneira na América Latina em experiências automotivas com supercarros. Fundada em 2009 e sediada em Gramado/RS, opera com mais de 40 supercarros — Ferrari, Lamborghini, McLaren, Porsche, Corvette, Mustang, Camaro — em um espaço de 3.600 m².</p>
+  <p>O braço B2B — <strong>SuperCarros Corporate</strong> — leva essa expertise para pistas profissionais em todo o Brasil, criando eventos de alto impacto para empresas que querem bonificar, engajar e fidelizar clientes e colaboradores de forma memorável.</p>
+  <div class="info-grid">
+    <div class="info-card"><div class="ic-label">Fundação</div><div class="ic-value">2009 — Gramado, RS</div></div>
+    <div class="info-card"><div class="ic-label">Experiência</div><div class="ic-value">15+ anos em eventos automotivos B2B</div></div>
+    <div class="info-card"><div class="ic-label">Track record</div><div class="ic-value">5.000+ convidados · zero incidentes graves</div></div>
+    <div class="info-card"><div class="ic-label">Parcerias exclusivas</div><div class="ic-value">Interlagos · Velocittá · Velopark</div></div>
+    <div class="info-card"><div class="ic-label">Speakers parceiros</div><div class="ic-value">Ingo Hoffmann · Reginaldo Leme</div></div>
+    <div class="info-card"><div class="ic-label">Supercarros disponíveis</div><div class="ic-value">Ferrari · Lamborghini · McLaren · Porsche</div></div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- 2. O PRODUTO -->
+  <div class="section-header">
+    <div class="section-num">2</div>
+    <h2>O Produto — SuperCarros Corporate</h2>
+  </div>
+  <p>O cliente contrata a SuperCarros para realizar um evento exclusivo em um autódromo profissional. A empresa leva os supercarros, pilotos instrutores, seguro, cobertura fotográfica e toda a operação de pista. O contratante só precisa trazer os convidados.</p>
+
+  <h3>2.1 Jornada do Dia — Evento Completo</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th style="width:110px">Horário</th><th>Atividade</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="schedule-time">08:30</td><td>Check-in & Café — Boas-vindas exclusivas e credenciamento VIP</td></tr>
+        <tr><td class="schedule-time">09:00</td><td>Safety Briefing — Instrução técnica com pilotos profissionais</td></tr>
+        <tr><td class="schedule-time">09:30</td><td>Equipamentos — Fit de capacete, balaclava e ajuste de cockpit</td></tr>
+        <tr class="schedule-row-highlight"><td class="schedule-time">10:00</td><td><strong>HOT LAPS &amp; DRIVE</strong> — Ferrari, Lamborghini, McLaren e Porsche na pista</td></tr>
+        <tr><td class="schedule-time">12:30</td><td>Almoço Premium — Gastronomia internacional no Pit Lane</td></tr>
+        <tr><td class="schedule-time">13:45</td><td>Business Talk — Sessão de conteúdo com liderança ou palestrante convidado</td></tr>
+        <tr><td class="schedule-time">15:00</td><td>Team Challenge — Competição de regularidade com telemetria e leaderboard</td></tr>
+        <tr><td class="schedule-time">16:30</td><td>Cerimônia &amp; Gifting — Pódio, fotos oficiais e entrega de kits</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>2.2 Módulos Opcionais (Add-ons)</h3>
+  <ul class="bullets">
+    <li>Branding Full — adesivagem de supercarros, macacões customizados, pit wall e pórticos brandeados</li>
+    <li>Piloto Convidado VIP — piloto de Stock Car/F1 para hot laps exclusivas e Q&amp;A</li>
+    <li>Media House 8K — câmeras RED, drone FPV de perseguição, edição same-day para redes sociais</li>
+    <li>Hospitality Assinatura — lounge premium, bar de mixologia molecular, menu gastronômico autoral</li>
+    <li>Telemetria &amp; Gamificação — leaderboard em tempo real e premiação por melhor tempo</li>
+    <li>Conteúdo Executivo — infraestrutura para talk de liderança ou lançamento de produto integrado à agenda</li>
+  </ul>
+
+  <hr class="divider">
+
+  <!-- 3. AUTÓDROMOS -->
+  <div class="section-header">
+    <div class="section-num">3</div>
+    <h2>Os Autódromos — Brasil 2026</h2>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Autódromo</th><th>Localização</th><th>Perfil Ideal</th><th>Referência/Convidado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-highlight">Interlagos</td>
+          <td>São Paulo, SP</td>
+          <td>C-level, Top Clients (150–300 convidados)</td>
+          <td><strong>R$ 2.900 – 6.900</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Velocittá</strong></td>
+          <td>Mogi Guaçu, SP (~2h de SP)</td>
+          <td>Força de vendas, kick-offs (60–180 convidados)</td>
+          <td><strong>R$ 1.900 – 4.900</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Velopark</strong></td>
+          <td>Nova Santa Rita, RS (~20 min de POA)</td>
+          <td>Regionais Sul, Industrial (60–200 convidados)</td>
+          <td><strong>R$ 1.700 – 4.500</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="alert">
+    <div class="alert-icon">⚠</div>
+    <p><strong>Importante:</strong> Abrir um autódromo por dia custa ~R$ 70.000, independente do número de convidados. Eventos com menos de 20 convidados ficam inviáveis. Para grupos menores (5–10 pessoas), apresente a opção de <strong>evento compartilhado</strong>, onde dividimos a pista e o custo com outros contratantes.</p>
+  </div>
+
+  <hr class="divider">
+
+  <!-- 4. PREÇOS -->
+  <div class="section-header">
+    <div class="section-num">4</div>
+    <h2>Formatos &amp; Preços</h2>
+  </div>
+  <div class="alert">
+    <div class="alert-icon">🚫</div>
+    <p><strong>POLÍTICA DE PREÇOS:</strong> nunca compartilhe valores antes da call. Após entender o objetivo, o número de convidados e o autódromo desejado, o André monta um <strong>pacote personalizado</strong>. Preço sem contexto derruba qualquer negociação.</p>
+  </div>
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="price-card-header">
+        <div class="price-card-name">Silver</div>
+        <div class="price-card-value">R$ 90k – 140k</div>
+        <div class="price-card-sub">50 – 100 convidados · R$ 900–1.800/pessoa</div>
+      </div>
+      <div class="price-card-body">
+        <div class="price-feature">2 Supercarros na pista</div>
+        <div class="price-feature">Coffee Break &amp; Networking</div>
+        <div class="price-feature">Briefing Técnico com instrutor</div>
+        <div class="price-feature">Fotógrafo Dedicado</div>
+        <div class="price-feature">Gift Essencial</div>
+        <div class="price-feature" style="margin-top:12px;color:#aaa;font-size:12px">Ideal para: equipes regionais e integração de times</div>
+      </div>
+    </div>
+    <div class="price-card">
+      <div class="price-card-header">
+        <div class="price-card-name">Gold</div>
+        <div class="price-card-value">R$ 140k – 220k</div>
+        <div class="price-card-sub">80 – 160 convidados · R$ 1.400–2.200/pessoa</div>
+      </div>
+      <div class="price-card-body">
+        <div class="price-feature">3 Supercarros à disposição</div>
+        <div class="price-feature">Lounge Exclusivo no Box</div>
+        <div class="price-feature">Cobertura Foto &amp; Vídeo</div>
+        <div class="price-feature">Talk de Liderança ou Palestrante</div>
+        <div class="price-feature">Gift Selecionado</div>
+        <div class="price-feature" style="margin-top:12px;color:#aaa;font-size:12px">Ideal para: kick-offs e canais de venda</div>
+      </div>
+    </div>
+    <div class="price-card featured">
+      <div class="price-card-header">
+        <div class="price-card-name">Platinum ★</div>
+        <div class="price-card-value">R$ 220k – 380k</div>
+        <div class="price-card-sub">120 – 220 convidados · R$ 1.800–3.100/pessoa</div>
+      </div>
+      <div class="price-card-body">
+        <div class="price-feature">4 Supercarros + Hot Laps VIP</div>
+        <div class="price-feature">Pista Icônica + Lounge Premium</div>
+        <div class="price-feature">Piloto Convidado (Stock Car/F1)</div>
+        <div class="price-feature">Media House 8K + Drone FPV</div>
+        <div class="price-feature">Customização Visual Total</div>
+        <div class="price-feature">Gift Premium + Seguro Ampliado</div>
+        <div class="price-feature" style="margin-top:12px;color:#aaa;font-size:12px">Ideal para: C-Level, Top Clients e Imprensa</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- 5. ICPs -->
+  <div class="section-header">
+    <div class="section-num">5</div>
+    <h2>Os ICPs — Quem Você Está Prospectando</h2>
+  </div>
+  <p>Identifique o objetivo do lead e conecte ao ICP correto. Isso determina o discurso, o autódromo, o pacote e o timing. Os ICPs foram mapeados com base no pipeline real da SuperCarros Corporate.</p>
+
+  <!-- ICP 1 -->
+  <div class="icp-card">
+    <div class="icp-header">
+      <div class="icp-header-left">
+        <div class="icp-num">ICP 01</div>
+        <div class="icp-title">Indústria &amp; Manufatura</div>
+      </div>
+      <div class="icp-focus">Força de vendas · Kick-off · Incentivo</div>
+    </div>
+    <div class="icp-body">
+      <div class="icp-hook">"Alta performance dentro e fora da fábrica."</div>
+      <p style="font-size:13px;margin-bottom:16px">Empresas de grande porte com equipes comerciais distribuídas pelo Brasil. Usam eventos como alavanca de incentivo para força de vendas, reconhecimento de metas e kick-offs de trimestre. O evento substitui convenções tradicionais com recall muito superior.</p>
+      <div class="icp-cols">
+        <div>
+          <div class="icp-col-label">Perfil da empresa</div>
+          <ul class="icp-list">
+            <li>Indústria automotiva, bens de consumo, alimentos, saúde</li>
+            <li>500+ colaboradores, multi-sites</li>
+            <li>Times comerciais ou de distribuição regionais</li>
+            <li>Faturamento anual R$ 100M+</li>
+          </ul>
+        </div>
+        <div>
+          <div class="icp-col-label">Cargo do contato</div>
+          <ul class="icp-list">
+            <li>Diretor Comercial / VP Vendas</li>
+            <li>Gerente de Trade Marketing</li>
+            <li>Head de Incentivos / Eventos</li>
+            <li>CHO / Diretora de RH (para integração)</li>
+          </ul>
+        </div>
+        <div>
+          <div class="icp-col-label">Gatilhos de compra</div>
+          <ul class="icp-list">
+            <li>Início de trimestre / bater meta semestral</li>
+            <li>Lançamento de novo produto ou linha</li>
+            <li>Reconhecimento de top performers</li>
+            <li>Convenção anual de vendas</li>
+          </ul>
+        </div>
+        <div>
+          <div class="icp-col-label">Ângulo de venda</div>
+          <ul class="icp-list">
+            <li>Substituir convenção tradicional com muito mais recall</li>
+            <li>Gamificação do desempenho (leaderboard de pista)</li>
+            <li>Branding completo com identidade da empresa nos carros</li>
+            <li>ROI mensurável: engajamento + meta batida</li>
+          </ul>
+        </div>
+      </div>
+      <div class="icp-companies">
+        <div class="icp-companies-label">Pipeline atual</div>
+        <span class="company-tag">Mahle</span>
+        <span class="company-tag">Mars</span>
+        <span class="company-tag">Oral Brasil</span>
+        <span class="company-tag">Acromaxx</span>
+        <span class="company-tag">Corsage</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ICP 2 -->
+  <div class="icp-card">
+    <div class="icp-header">
+      <div class="icp-header-left">
+        <div class="icp-num">ICP 02</div>
+        <div class="icp-title">Financeiro &amp; Seguros</div>
+      </div>
+      <div class="icp-focus">Top Clients · C-Level · Fidelização</div>
+    </div>
+    <div class="icp-body">
+      <div class="icp-hook">"Exclusividade que fideliza quem mais importa."</div>
+      <p style="font-size:13px;margin-bottom:16px">Bancos, seguradoras, fintechs e gestoras de patrimônio que precisam estreitar relacionamento com seus melhores clientes ou parceiros de distribuição. O evento posiciona a marca como referência em exclusividade e sofisticação.</p>
+      <div class="icp-cols">
+        <div>
+          <div class="icp-col-label">Perfil da empresa</div>
+          <ul class="icp-list">
+            <li>Banco, seguradora, gestora de wealth, fintech</li>
+            <li>Carteira de clientes premium / HNW</li>
+            <li>Produtos de alto ticket (seguros de vida, previdência, fundos)</li>
+          </ul>
+        </div>
+        <div>
+          <div class="icp-col-label">Cargo do contato</div>
+          <ul class="icp-list">
+            <li>CMO / Diretor de Marketing</li>
+            <li>Head de Wealth Management</li>
+            <li>Diretor Comercial / CEO</li>
+            <li>Gerente de Relacionamento Sênior</li>
+          </ul>
+        </div>
+        <div>
+          <div class="icp-col-label">Gatilhos de compra</div>
+          <ul class="icp-list">
+            <li>Evento institucional ou aniversário da empresa</li>
+            <li>Lançamento de produto de alto valor</li>
+            <li>Retenção de carteira premium</li>
+            <li>Agenda de relacionamento C-level</li>
+          </ul>
+        </div>
+        <div>
+          <div class="icp-col-label">Ângulo de venda</div>
+          <ul class="icp-list">
+            <li>Experiência impossível de replicar — diferencial total</li>
+            <li>NPS altíssimo pós-evento (ref.: 93 no case TechGiant)</li>
+            <li>Ambiente 1:1 para fechar relacionamentos estratégicos</li>
+            <li>Branding de luxo alinhado ao posicionamento da marca</li>
+          </ul>
+        </div>
+      </div>
+      <div class="icp-companies">
+        <div class="icp-companies-label">Pipeline atual</div>
+        <span class="company-tag">Visa</span>
+        <span class="company-tag">Sosseg Seguros</span>
+        <span class="company-tag">UPIX</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ICP 3 -->
+  <div class="icp-card">
+    <div class="icp-header">
+      <div class="icp-header-left">
+        <div class="icp-num">ICP 03</div>
+        <div class="icp-title">Tecnologia, SaaS &amp; Inovação</div>
+      </div>
+      <div class="icp-focus">Pipeline · Parceiros · Lançamento</div>
+    </div>
+    <div class="icp-body">
+      <div class="icp-hook">"Acelerar relacionamento comercial em alta velocidade."</div>
+      <p style="font-size:13px;margin-bottom:16px">Empresas de tecnologia e SaaS B2B que usam o evento como acelerador de pipeline — trazendo top prospects ou parceiros para um contexto exclusivo onde as conversas evoluem naturalmente para negócio.</p>
+      <div class="icp-cols">
+        <div>
+          <div class="icp-col-label">Perfil da empresa</div>
+          <ul class="icp-list">
+            <li>SaaS B2B, plataformas enterprise, consultorias de tech</li>
+            <li>Ciclo de vendas longo (3–12 meses)</li>
+            <li>Ticket médio alto (R$ 100k+/ano)</li>
+            <li>Equipe de enterprise sales ou channel</li>
+          </ul>
+        </div>
+        <div>
+          <div class="icp-col-label">Cargo do contato</div>
+          <ul class="icp-list">
+            <li>VP Comercial / Chief Revenue Officer</li>
+            <li>Head de Parcerias / Alianças</li>
+            <li>CEO / Co-Founder (startups scale-up)</li>
+            <li>Diretor de Marketing B2B</li>
+          </ul>
+        </div>
+        <div>
+          <div class="icp-col-label">Gatilhos de compra</div>
+          <ul class="icp-list">
+            <li>Blitz comercial de fim de trimestre</li>
+            <li>Lançamento de novo produto ou feature</li>
+            <li>Pipeline travado com decisores</li>
+            <li>Evento de parceiros / channel day</li>
+          </ul>
+        </div>
+        <div>
+          <div class="icp-col-label">Ângulo de venda</div>
+          <ul class="icp-list">
+            <li>Pipeline influenciado mensurável (ref.: 48% no case)</li>
+            <li>Ambiente 1:1 com decisores — sem agenda corporativa</li>
+            <li>Recall de 30 dias — muito acima de jantar ou happy hour</li>
+            <li>Gamificação e competição criam laços reais entre equipes</li>
+          </ul>
+        </div>
+      </div>
+      <div class="icp-companies">
+        <div class="icp-companies-label">Pipeline atual</div>
+        <span class="company-tag">CPQD</span>
+        <span class="company-tag">One IA</span>
+        <span class="company-tag">Fusify</span>
+        <span class="company-tag">MixNutri</span>
+        <span class="company-tag">SPBrasil</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ICP 4 -->
+  <div class="icp-card">
+    <div class="icp-header">
+      <div class="icp-header-left">
+        <div class="icp-num">ICP 04</div>
+        <div class="icp-title">Construção &amp; Imobiliário</div>
+      </div>
+      <div class="icp-focus">Corretores · Lançamentos · VGV</div>
+    </div>
+    <div class="icp-body">
+      <div class="icp-hook">"O lançamento que nenhuma construtora vai esquecer."</div>
+      <p style="font-size:13px;margin-bottom:16px">Construtoras e incorporadoras que usam eventos para motivar e premiara rede de corretores parceiros, ou para criar uma experiência de lançamento de empreendimento de alto padrão junto a investidores e compradores VIP.</p>
+      <div class="icp-cols">
+        <div>
+          <div class="icp-col-label">Perfil da empresa</div>
+          <ul class="icp-list">
+            <li>Construtoras médias e grandes (R$ 200M+ VGV)</li>
+            <li>Incorporadoras de alto padrão / luxo</li>
+            <li>Redes de imobiliárias (franquias) com corretores</li>
+          </ul>
+        </div>
+        <div>
+          <div class="icp-col-label">Cargo do contato</div>
+          <ul class="icp-list">
+            <li>Diretor Comercial / Marketing</li>
+            <li>Gerente de Vendas / Canais</li>
+            <li>Sócio / CEO da incorporadora</li>
+          </ul>
+        </div>
+        <div>
+          <div class="icp-col-label">Gatilhos de compra</div>
+          <ul class="icp-list">
+            <li>Lançamento de novo empreendimento</li>
+            <li>Campanha de incentivo para corretores</li>
+            <li>Premiação de top sellers do trimestre</li>
+          </ul>
+        </div>
+        <div>
+          <div class="icp-col-label">Ângulo de venda</div>
+          <ul class="icp-list">
+            <li>Experiência que motiva corretores a priorizar seus lançamentos</li>
+            <li>Storytelling premium alinhado ao produto imobiliário de luxo</li>
+            <li>Mídia espontânea — conteúdo gerado pelos corretores nas redes</li>
+          </ul>
+        </div>
+      </div>
+      <div class="icp-companies">
+        <div class="icp-companies-label">Pipeline atual</div>
+        <span class="company-tag">WEGG Construtora</span>
+        <span class="company-tag">Wilson Canova</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ICP 5 -->
+  <div class="icp-card">
+    <div class="icp-header">
+      <div class="icp-header-left">
+        <div class="icp-num">ICP 05</div>
+        <div class="icp-title">Consultoria, RH &amp; Eventos Corporativos</div>
+      </div>
+      <div class="icp-focus">Integração · Cultura · Engajamento</div>
+    </div>
+    <div class="icp-body">
+      <div class="icp-hook">"Cultura que vai além da sala de reunião."</div>
+      <p style="font-size:13px;margin-bottom:16px">Empresas de consultoria e RH com foco em cultura, people e engajamento, seja para uso próprio (seus times) ou como produto vendido para clientes (oferta de evento premium como parte do portfólio de soluções).</p>
+      <div class="icp-cols">
+        <div>
+          <div class="icp-col-label">Perfil da empresa</div>
+          <ul class="icp-list">
+            <li>Consultorias de gestão, RH e cultura</li>
+            <li>Empresas com desafio de onboarding ou retenção</li>
+            <li>Organizadoras de eventos corporativos B2B</li>
+          </ul>
+        </div>
+        <div>
+          <div class="icp-col-label">Cargo do contato</div>
+          <ul class="icp-list">
+            <li>CHO / Diretora de Pessoas</li>
+            <li>Head de Cultura / Employee Experience</li>
+            <li>Sócio de consultoria / Diretor de Projetos</li>
+          </ul>
+        </div>
+        <div>
+          <div class="icp-col-label">Gatilhos de compra</div>
+          <ul class="icp-list">
+            <li>eNPS baixo ou queda de engajamento</li>
+            <li>Fusão, aquisição ou reestruturação de times</li>
+            <li>Kick-off anual / offsites executivos</li>
+          </ul>
+        </div>
+        <div>
+          <div class="icp-col-label">Ângulo de venda</div>
+          <ul class="icp-list">
+            <li>Recall de longo prazo — a experiência ancora memória coletiva</li>
+            <li>Senso de pertencimento impossível em sala de aula</li>
+            <li>Diferencia RH perante o board como área estratégica</li>
+          </ul>
+        </div>
+      </div>
+      <div class="icp-companies">
+        <div class="icp-companies-label">Pipeline atual</div>
+        <span class="company-tag">EXED Consulting</span>
+        <span class="company-tag">Gerth Consultoria</span>
+        <span class="company-tag">Montico</span>
+        <span class="company-tag">Quinova</span>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- 6. FLUXO DA CALL -->
+  <div class="section-header">
+    <div class="section-num">6</div>
+    <h2>Fluxo Completo — Da Prospecção ao Fechamento</h2>
+  </div>
+  <p>Este é o processo padrão do SDR, do primeiro contato até o fechamento pelo André. Cada etapa tem um responsável e um SLA claro.</p>
+
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-num">1</div>
+      <div class="flow-content">
+        <div class="flow-title">Prospecção Fria <span class="flow-tag">SDR</span></div>
+        <p class="flow-desc">Contato via LinkedIn (Mit Alfred) ou ligação fria. Objetivo: gerar interesse e marcar a call de descoberta. Nunca compartilhar preços nesta etapa.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">2</div>
+      <div class="flow-content">
+        <div class="flow-title">Qualificação <span class="flow-tag">SDR</span></div>
+        <p class="flow-desc">Antes da call, levantar: qual o objetivo do evento, quantos convidados estimados, autódromo/cidade, data aproximada, nível do decisor. Preencher o Briefing do Lead e enviar ao André com antecedência.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">3</div>
+      <div class="flow-content">
+        <div class="flow-title">Call de Descoberta — SDR apresenta, André fecha <span class="flow-tag">SDR + André</span></div>
+        <p class="flow-desc">O <strong>SDR participa da call</strong> e faz a abertura: apresenta a SuperCarros Corporate, o produto e os cases. Após a apresentação, passa a palavra ao André para aprofundar o relacionamento, tirar dúvidas técnicas e conduzir ao fechamento. O SDR fica como ouvinte e suporte.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">4</div>
+      <div class="flow-content">
+        <div class="flow-title">Proposta Personalizada <span class="flow-tag">André</span></div>
+        <p class="flow-desc">André monta o pacote customizado com base no briefing (objetivo, número de convidados, autódromo, data). Entrega em até 24h após a call.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">5</div>
+      <div class="flow-content">
+        <div class="flow-title">Follow-up da Proposta <span class="flow-tag">SDR</span></div>
+        <p class="flow-desc">Após o envio da proposta, o SDR assume o follow-up: registra quantas vezes o lead foi contatado, qual foi a resposta mais recente e o status atual. Estas informações são reportadas ao André no <strong>relatório semanal</strong>.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">6</div>
+      <div class="flow-content">
+        <div class="flow-title">Fechamento &amp; Contrato <span class="flow-tag">André</span></div>
+        <p class="flow-desc">André conduz a negociação final, ajuste de escopo e assinatura. SDR faz suporte logístico na comunicação.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <div class="alert-icon">ℹ</div>
+    <p><strong>Por que o SDR faz a abertura da call?</strong> O André entra com o relacionamento já aquecido — o lead já foi apresentado ao produto, viu os cases e tem interesse real. Isso encurta o ciclo e libera o André para focar em fechar.</p>
+  </div>
+
+  <hr class="divider">
+
+  <!-- 7. SCRIPTS -->
+  <div class="section-header">
+    <div class="section-num">7</div>
+    <h2>Scripts de Prospecção</h2>
+  </div>
+  <div class="alert">
+    <div class="alert-icon">🚫</div>
+    <p><strong>Regra de ouro:</strong> na prospecção, o objetivo é marcar a call. <strong>Nunca compartilhe preços, pacotes ou orçamentos</strong> antes de falar com o prospect. Após a call, o André monta o pacote personalizado.</p>
+  </div>
+
+  <h3>7.1 LinkedIn — Primeiro Contato (Cold)</h3>
+  <div class="script-block">Oi [Nome], tudo bem? Vi que você [trabalha na área de RH / lidera times de vendas / é responsável por eventos corporativos] na [Empresa]. A SuperCarros Corporate cria experiências em pista — Interlagos, Velocittá, Velopark — que empresas B2B usam para fidelizar clientes, engajar times e acelerar vendas. Diferente de evento convencional: recall muito mais alto após 30 dias. Faz sentido marcar 15 minutos para te mostrar como funciona?</div>
+
+  <h3>7.2 LinkedIn — Follow-up (3–4 dias depois)</h3>
+  <div class="script-block">Oi [Nome], só passando por aqui de novo. Tenho um case rápido de como fizemos com uma empresa do [setor do prospect]: [frase do case]. Se tiver 15 min esta semana, posso te mostrar como funciona e quais datas ainda temos disponíveis para 2026. Qual o melhor dia?</div>
+
+  <h3>7.3 LinkedIn — Urgência de Data (Terceiro toque)</h3>
+  <div class="script-block">Oi [Nome], última vez que passo por aqui. Agosto em Interlagos já tem reservas abertas e outubro/novembro estão com alta procura. Se fizer sentido ainda este ano, precisamos conversar logo para garantir a janela. Me avisa!</div>
+
+  <h3>7.4 Ligação Fria — Abertura (30 segundos)</h3>
+  <div class="script-block">Oi [Nome], aqui é [seu nome] da SuperCarros Corporate. Posso falar 30 segundos? A gente organiza eventos B2B em pista — Interlagos, Velocittá — para empresas que querem fidelizar clientes ou engajar time comercial. Teve alguma iniciativa assim no planejamento de vocês?</div>
+
+  <div class="alert">
+    <div class="alert-icon">⚠</div>
+    <p><strong>SLA Crítico:</strong> toda mensagem recebida no LinkedIn, WhatsApp ou e-mail deve ser respondida em até <strong>2 horas</strong> (dias úteis). Leads que pedem reunião têm agenda confirmada no mesmo dia. Isso é inegociável.</p>
+  </div>
+
+  <hr class="divider">
+
+  <!-- 8. OBJEÇÕES -->
+  <div class="section-header">
+    <div class="section-num">8</div>
+    <h2>Objeções Comuns e Como Responder</h2>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th style="width:32%">Objeção</th><th>Como responder</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><em>"É muito caro."</em></td>
+          <td>O valor é relevante, concordo. Nossos clientes percebem que o recall é muito maior que evento convencional. Um cliente de agro gerou vendas no dia que pagaram o evento com sobra. Antes de qualquer número, me fala um pouco do seu contexto — quantos convidados, qual objetivo?</td>
+        </tr>
+        <tr>
+          <td><em>"Quanto custa?"</em></td>
+          <td>Boa pergunta — mas o investimento varia bastante dependendo do número de convidados, do autódromo e dos módulos. Prefiro entender seu objetivo em 15 minutos antes de passar qualquer número. Assim garanto que o que eu mostrar vai ser relevante. Quando você tem um tempinho?</td>
+        </tr>
+        <tr>
+          <td><em>"Não tenho budget agora."</em></td>
+          <td>Faz sentido. Muitos clientes planejam o evento para Q1 do ano que vem e fecham a reserva agora para garantir a data. Podemos só trocar uma ideia sobre o que faria sentido pro seu contexto?</td>
+        </tr>
+        <tr>
+          <td><em>"Tenho poucos convidados (5–10)."</em></td>
+          <td>Para grupos menores, temos evento compartilhado: você garante espaço exclusivo dentro de uma data já programada, diluindo o custo de pista. Vale uma conversa rápida para ver se se encaixa?</td>
+        </tr>
+        <tr>
+          <td><em>"Preciso de autódromo no Sul."</em></td>
+          <td>Temos o Velopark, a 20 min de Porto Alegre — ótima opção para o Sul. Posso checar disponibilidade para a sua região já na call.</td>
+        </tr>
+        <tr>
+          <td><em>"Não conheço a SuperCarros."</em></td>
+          <td>Somos B2B e não fazemos marketing de massa. Pioneiros na América Latina desde 2009, 5.000+ convidados corporativos com zero incidentes. Posso te mandar a apresentação ou prefere uma call rápida?</td>
+        </tr>
+        <tr>
+          <td><em>"Não tenho tempo para organizar."</em></td>
+          <td>Exatamente aí que entramos. Você define o objetivo e os convidados — nós cuidamos de tudo: pista, carros, instrutores, seguro, food, cobertura e logística. Você só leva as pessoas.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="divider">
+
+  <!-- 9. RELATÓRIO -->
+  <div class="section-header">
+    <div class="section-num">9</div>
+    <h2>Relatório Semanal — Alinhamento com o André</h2>
+  </div>
+  <div class="info-box">
+    <div class="alert-icon">📋</div>
+    <p>Alinhado em call em 29/07/2026 — André Goettert, Ivan Felipe (V4) e Pedro Arruda (V4). O relatório pode ser enviado no grupo do WhatsApp ou diretamente para o André — toda segunda-feira, sem exceção.</p>
+  </div>
+  <p>O André quer visibilidade total sobre o que está sendo feito. Sem relatório, a percepção é de que nada está acontecendo. O relatório semanal resolve isso.</p>
+
+  <h3>Campos obrigatórios do relatório</h3>
+  <div class="report-field">
+    <div class="rf-label">📊 Prospecções da semana</div>
+    <div class="rf-value">Quantas empresas foram abordadas (LinkedIn, telefone, e-mail)</div>
+  </div>
+  <div class="report-field">
+    <div class="rf-label">💬 Respostas / Interesse</div>
+    <div class="rf-value">Quantos leads responderam ou demonstraram interesse</div>
+  </div>
+  <div class="report-field">
+    <div class="rf-label">👤 Nível do interlocutor</div>
+    <div class="rf-value">Para cada empresa ativa: CEO, Diretor, Gerente ou Coordenador</div>
+  </div>
+  <div class="report-field">
+    <div class="rf-label">📋 Leads em andamento</div>
+    <div class="rf-value">Nome da empresa + status: aguardando resposta / proposta enviada / em negociação</div>
+  </div>
+  <div class="report-field">
+    <div class="rf-label">🔁 Follow-up pós-proposta</div>
+    <div class="rf-value">Leads que receberam proposta: <strong>quantas vezes foram contatados</strong> após o envio e qual foi a resposta mais recente</div>
+  </div>
+  <div class="report-field">
+    <div class="rf-label">📅 Agenda da semana seguinte</div>
+    <div class="rf-value">Reuniões confirmadas — empresa, cargo, data e hora</div>
+  </div>
+
+  <div class="alert" style="margin-top:20px">
+    <div class="alert-icon">⚠</div>
+    <p>O relatório de follow-up pós-proposta é o item que o André mais quer ver: ele precisa saber se os leads que receberam orçamento estão sendo trabalhados ou esfriando. <strong>Registre cada contato feito após a proposta.</strong></p>
+  </div>
+
+  <hr class="divider">
+
+  <!-- 10. PROVA SOCIAL -->
+  <div class="section-header">
+    <div class="section-num">10</div>
+    <h2>Prova Social e Cases</h2>
+  </div>
+  <h3>Case: TechGiant Latin America — Tecnologia B2B / SaaS Enterprise</h3>
+  <div class="stats-row">
+    <div class="stat-box"><div class="stat-number">210</div><div class="stat-label">Convidados C-Level</div></div>
+    <div class="stat-box"><div class="stat-number">93</div><div class="stat-label">NPS pós-evento</div></div>
+    <div class="stat-box"><div class="stat-number">48%</div><div class="stat-label">Pipeline Influenciado</div></div>
+  </div>
+  <div class="quote">"Foi o evento mais memorável do nosso calendário anual. A experiência na pista quebrou barreiras e nos permitiu fechar três contas enterprise na semana seguinte. O ROI foi indiscutível." — CMO, TechGiant Latin America</div>
+
+  <h3>Case: Setor Agro — Gramado/RS</h3>
+  <p>Cliente do agro reuniu 34 melhores clientes do Brasil em Gramado. Foi feita uma ação de compra integrada: quem mais comprasse no dia ganharia uma volta na Ferrari. As vendas realizadas no dia pagaram todo o evento com sobra — ROI imediato e mensurável.</p>
+
+  <hr class="divider">
+
+  <!-- 11. SEGURANÇA -->
+  <div class="section-header">
+    <div class="section-num">11</div>
+    <h2>Segurança &amp; Governança</h2>
+  </div>
+  <p>Quando o prospect perguntar sobre segurança — e vai perguntar — use esses pontos:</p>
+  <ul class="bullets">
+    <li>Instrutores em dupla de comando em todos os veículos</li>
+    <li>Limites eletrônicos de RPM configurados por nível de experiência do convidado</li>
+    <li>Bandeiras de sinalização e inspeção técnica prévia dos veículos</li>
+    <li>Briefing obrigatório de segurança com check individual de capacete e balaclava</li>
+    <li>Janelas de acesso restrito no pit lane — sem pedestres em área de pista</li>
+    <li>Plano B completo para condições climáticas adversas</li>
+    <li>Apólice de Responsabilidade Civil completa</li>
+    <li>UTI móvel dedicada e equipe de brigada no local durante todo o evento</li>
+    <li>Termos digitais de direito de imagem e adequação à LGPD</li>
+    <li>Alvarás e licenças de evento em dia para todos os autódromos</li>
+  </ul>
+  <div class="quote">"Adrenalina com método: emoção controlada, risco gerenciado."</div>
+
+  <hr class="divider">
+
+  <!-- 12. CONTATOS E FERRAMENTAS -->
+  <div class="section-header">
+    <div class="section-num">12</div>
+    <h2>Contatos e Ferramentas</h2>
+  </div>
+  <h3>12.1 Contatos Internos</h3>
+  <div class="contacts-grid">
+    <div class="contact-card">
+      <div class="contact-avatar">AG</div>
+      <div class="contact-info">
+        <div class="contact-name">André Goettert</div>
+        <div class="contact-role">Fundador &amp; CEO — SuperCarros</div>
+        <div class="contact-detail">
+          financeiro@supercarros.cc<br>
+          +55 54 9197-8788<br>
+          LinkedIn: andre-Goettert
+        </div>
+      </div>
+    </div>
+    <div class="contact-card">
+      <div class="contact-avatar">IF</div>
+      <div class="contact-info">
+        <div class="contact-name">Ivan Felipe</div>
+        <div class="contact-role">Estrategista — V4 Company</div>
+        <div class="contact-detail">
+          ivan.felipe@v4company.com<br>
+          +55 11 99670-4881
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3>12.2 Ferramentas</h3>
+  <ul class="bullets">
+    <li>Mit Alfred — ferramenta principal para prospecção fria no LinkedIn</li>
+    <li>WhatsApp Business — comunicação com o André e grupo do projeto</li>
+  </ul>
+
+  <h3>12.3 Como Acionar o André para Montar um Pacote</h3>
+  <p>Após a call de descoberta, envie ao André o <strong>Briefing do Lead</strong> com:</p>
+  <ul class="bullets">
+    <li>Objetivo do evento (integração / pipeline / C-level)</li>
+    <li>Número estimado de convidados</li>
+    <li>Autódromo preferido ou cidade</li>
+    <li>Data aproximada ou janela de meses</li>
+    <li>Budget disponível (faixa) — se o lead informou</li>
+    <li>Histórico da conversa e nível do decisor</li>
+  </ul>
+  <p>Com essas informações, o André monta o pacote personalizado em até 24h.</p>
+
+  <hr class="divider">
+
+  <!-- 13. REGRAS DE OURO -->
+  <div class="section-header">
+    <div class="section-num">13</div>
+    <h2>As 7 Regras de Ouro do SDR SuperCarros</h2>
+  </div>
+  <div class="rules-grid">
+    <div class="rule-card">
+      <div class="rule-num">01</div>
+      <div class="rule-title">Resposta rápida é produto.</div>
+      <div class="rule-desc">Uma mensagem não respondida em 2h é uma oportunidade perdida. O lead que não recebe resposta pode ir para o concorrente.</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-num">02</div>
+      <div class="rule-title">Nunca passe preço antes da call.</div>
+      <div class="rule-desc">Preço sem contexto derruba qualquer negociação. O objetivo da prospecção é marcar a conversa.</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-num">03</div>
+      <div class="rule-title">Entenda o objetivo primeiro.</div>
+      <div class="rule-desc">Qual o objetivo? Quantos convidados? Qual o perfil? Essas três perguntas determinam tudo o que vem depois.</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-num">04</div>
+      <div class="rule-title">Preencha o Briefing antes da call.</div>
+      <div class="rule-desc">O André entra na call preparado. Sem briefing, a conversa começa do zero — e a chance de fechar cai.</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-num">05</div>
+      <div class="rule-title">Grupos pequenos têm solução.</div>
+      <div class="rule-desc">5–10 pessoas? Apresente o evento compartilhado. Não descarte oportunidades por falta de alternativa.</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-num">06</div>
+      <div class="rule-title">Relatório semanal é inegociável.</div>
+      <div class="rule-desc">O André quer ver em números o que está sendo feito. Toda segunda-feira, sem exceção. Inclua o FUP pós-proposta.</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-num">07</div>
+      <div class="rule-title">Vá ao Flash Interlagos.</div>
+      <div class="rule-desc">Conhecer a operação ao vivo te dá credibilidade real na venda. Avise o André para garantir a cortesia.</div>
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-left">
+    <div class="footer-brand">SUPERCARROS <span>CORPORATE</span></div>
+    <div class="footer-tagline">A experiência que nenhum evento corporativo consegue criar.</div>
+  </div>
+  <div class="footer-right">
+    Ferrari · Lamborghini · McLaren · Porsche<br>
+    Interlagos · Velocittá · Velopark<br>
+    <span style="color:#444">Produzido por V4 Company · Julho 2026</span>
+  </div>
+</div>
+
+</body>
+</html>
